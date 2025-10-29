@@ -13,6 +13,9 @@ A **modular Retrieval-Augmented Generation (RAG) system** for legal document ana
 - [Screenshots](#screenshots)
 - [Features](#features)
 - [Project Structure](#project-structure)
+- [Technology Stack](#technology-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
 
 ---
 
@@ -65,8 +68,8 @@ Example of the system answering a question about fundamental rights:
 ## 📁 Project Structure
 
 ```
-FuseProject/
-├── legaldocrag/                # Main package
+LegalDoc-RAG/
+├── legaldocrag/                # Core RAG pipeline package
 │   ├── __init__.py             # Package initialization
 │   ├── pipeline.py             # Main orchestration pipeline
 │   ├── preprocessing.py        # NER and entity extraction (spaCy)
@@ -77,23 +80,221 @@ FuseProject/
 │   ├── corrective.py           # Hallucination detection & quality assurance
 │   ├── citations.py            # Citation formatting utilities
 │   └── config.py               # Pipeline configuration & settings
+│
+├── web/                        # Full-stack web application
+│   ├── backend/                # FastAPI backend service
+│   │   ├── app/                # Application code
+│   │   │   ├── api/            # API routes and endpoints
+│   │   │   ├── models/         # Pydantic schemas
+│   │   │   ├── services/       # Business logic layer
+│   │   │   ├── utils/          # Utility functions
+│   │   │   ├── config.py       # Backend configuration
+│   │   │   └── main.py         # FastAPI application entry
+│   │   ├── legaldocrag/        # Core RAG modules for backend
+│   │   ├── Dockerfile          # Backend container configuration
+│   │   └── requirements.txt    # Backend Python dependencies
+│   │
+│   ├── frontend/               # React frontend application
+│   │   ├── src/
+│   │   │   ├── components/     # React components
+│   │   │   │   ├── ChatInterface.jsx
+│   │   │   │   ├── DocumentUpload.jsx
+│   │   │   │   ├── DocumentListModal.jsx
+│   │   │   │   ├── Header.jsx
+│   │   │   │   ├── MessageBubble.jsx
+│   │   │   │   └── SourceCitation.jsx
+│   │   │   ├── services/       # API service layer
+│   │   │   ├── App.jsx         # Main app component
+│   │   │   ├── main.jsx        # React entry point
+│   │   │   ├── index.css       # Global styles
+│   │   │   └── animations.css  # Animation definitions
+│   │   ├── public/             # Static assets
+│   │   ├── Dockerfile          # Frontend container configuration
+│   │   ├── package.json        # Node.js dependencies
+│   │   ├── vite.config.js      # Vite build configuration
+│   │   └── tailwind.config.js  # Tailwind CSS configuration
+│   │
+│   └── docker-compose.yml      # Multi-container orchestration
+│
 ├── Model/                      # Original implementation
-│   └── model.py                # Original monolithic file (preserved for reference)
-├── frontend/                   # React frontend application
-│   ├── src/                    # Frontend source code
-│   ├── public/                 # Static assets
-│   ├── package.json            # Node.js dependencies
-│   ├── vite.config.js          # Vite configuration
-│   └── README.md               # Frontend documentation
-├── docs/                       # Documentation files
-├── lora_adapters/              # LoRA fine-tuned adapters (gitignored)
-├── run_pipeline.py             # Main entry point (full pipeline)
+│   └── Model.py                # Original monolithic file (reference)
+│
+├── Screenshots/                # Application screenshots
+│   ├── 1.png                   # Initial interface
+│   └── 2.png                   # Query response example
+│
+├── docs/                       # Documentation and diagrams
+│
+├── run_pipeline.py             # Standalone pipeline entry point
 ├── requirements.txt            # Python dependencies
 ├── .gitignore                  # Git ignore rules
 └── README.md                   # This file
 ```
 
-**Note**: The `lora_adapters/` directory contains LoRA fine-tuned model weights and is excluded from version control due to large file sizes. See [.gitignore](.gitignore) for details.
+**Note**: The `lora_adapters/` directory contains LoRA fine-tuned model weights and is excluded from version control due to large file sizes.
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend
+- **Python 3.8+** - Core programming language
+- **FastAPI** - Modern web framework for building APIs
+- **LangChain** - Framework for LLM applications
+- **FAISS** - Vector similarity search
+- **BM25** - Sparse retrieval algorithm
+- **spaCy** - NLP and entity recognition
+- **Transformers** - HuggingFace models
+- **LoRA** - Parameter-efficient fine-tuning
+
+### Frontend
+- **React 18** - UI library
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **Axios** - HTTP client
+
+### Infrastructure
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8 or higher
+- Node.js 16+ and npm
+- Docker and Docker Compose (optional, for containerized deployment)
+
+### Installation
+
+#### Option 1: Local Development
+
+**Backend Setup:**
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Navigate to backend directory
+cd web/backend
+pip install -r requirements.txt
+
+# Run backend server
+cd app
+uvicorn main:app --reload
+```
+
+**Frontend Setup:**
+```bash
+# Navigate to frontend directory
+cd web/frontend
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+```
+
+#### Option 2: Docker Deployment
+
+```bash
+# Navigate to web directory
+cd web
+
+# Build and run with Docker Compose
+docker-compose up --build
+```
+
+The application will be available at:
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:8000`
+- API Documentation: `http://localhost:8000/docs`
+
+---
+
+## 💻 Usage
+
+### Web Application
+
+1. **Upload Documents**: Use the document upload interface to add legal documents to the knowledge base
+2. **Ask Questions**: Type your legal query in the chat interface
+3. **View Responses**: Get AI-generated answers with citations to source documents
+4. **Review Sources**: Click on citations to see the referenced document sections
+
+### Standalone Pipeline
+
+Run the RAG pipeline directly:
+
+```bash
+python run_pipeline.py
+```
+
+This executes the complete pipeline:
+1. Preprocessing and NER
+2. Query expansion
+3. Hybrid retrieval
+4. Cross-encoder reranking
+5. Answer generation
+6. Quality validation
+
+---
+
+## 📝 API Endpoints
+
+### POST `/api/chat`
+Send a query and receive a response with citations
+
+**Request:**
+```json
+{
+  "message": "What are the fundamental rights?",
+  "conversation_id": "optional-id"
+}
+```
+
+**Response:**
+```json
+{
+  "response": "Fundamental rights are...",
+  "citations": [...],
+  "conversation_id": "uuid"
+}
+```
+
+### POST `/api/upload`
+Upload legal documents for indexing
+
+### GET `/api/documents`
+List all uploaded documents
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👥 Authors
+
+- **Shreya Uprety** - [@shreyaupretyy](https://github.com/shreyaupretyy)
+
+---
+
+## 🙏 Acknowledgments
+
+- Built as part of the Fuse AI Fellowship program
+- Special thanks to the open-source community for the amazing tools and libraries
+
+---
 
 
 
