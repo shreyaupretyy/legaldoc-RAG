@@ -93,17 +93,17 @@ const ChatInterface = ({ hasDocuments }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-dark-500 rounded-2xl shadow-dark-lg overflow-hidden border border-dark-300 backdrop-blur-lg bg-opacity-90">
+    <div className="h-full flex flex-col bg-slate-50">
       {/* Header with New Chat button */}
       {messages.length > 0 && (
-        <div className="border-b border-dark-300 px-4 py-3 bg-dark-400/20 backdrop-blur-sm flex justify-between items-center">
+        <div className="border-b border-slate-200 px-6 py-4 bg-white flex justify-between items-center shadow-sm">
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-sm text-dark-100 font-medium">Active conversation</span>
+            <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+            <span className="text-sm text-slate-600 font-semibold">Active Chat</span>
           </div>
           <button
             onClick={handleNewChat}
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-dark-400/30 hover:bg-dark-400/50 border border-dark-300 hover:border-accent-500/50 text-dark-100 hover:text-accent-400 transition-all duration-200 text-sm"
+            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 hover:text-slate-900 transition-all text-sm font-semibold shadow-sm hover:shadow"
           >
             <RefreshCw className="w-4 h-4" />
             <span>New Chat</span>
@@ -113,40 +113,43 @@ const ChatInterface = ({ hasDocuments }) => {
       
       {/* No Documents Warning */}
       {!hasDocuments && (
-        <div className="bg-warning/10 border-b border-warning/20 px-4 py-3">
-          <div className="flex items-center space-x-2 text-warning">
+        <div className="bg-amber-50 border-b border-amber-200 px-6 py-4">
+          <div className="flex items-center space-x-3 text-amber-700">
             <AlertTriangle className="w-5 h-5" />
-            <p className="text-sm font-medium">
-              No documents indexed. Please upload a PDF to start asking questions.
-            </p>
+            <div>
+              <p className="text-sm font-semibold">No documents indexed</p>
+              <p className="text-xs text-amber-600">Upload a PDF to start asking questions</p>
+            </div>
           </div>
         </div>
       )}
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-6 chat-scrollbar">
+      <div className="flex-1 overflow-y-auto p-8">
         {messages.length === 0 ? (
           <div className="h-full flex items-center justify-center">
             <div className="text-center max-w-2xl px-4">
-              <div className="w-24 h-24 bg-linear-to-br from-accent-500 via-purple-600 to-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-dark-lg">
-                <BookOpen className="w-12 h-12 text-white" />
+              <div className="w-24 h-24 bg-gradient-to-br from-teal-100 to-emerald-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <BookOpen className="w-12 h-12 text-teal-600" />
               </div>
-              <h3 className="text-2xl font-bold text-dark-50 mb-3">
+              <h3 className="text-3xl font-bold text-slate-900 mb-4">
                 Welcome to LegalDocRAG
               </h3>
-              <p className="text-dark-200 mb-8 leading-relaxed">
-                Ask any question about your legal documents and get accurate answers with source citations from the Constitution of Nepal.
+              <p className="text-lg text-slate-600 mb-10 leading-relaxed">
+                Ask questions about your legal documents and get accurate answers with citations.
               </p>
 
               {hasDocuments && (
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold text-dark-100 mb-3">Try asking:</p>
-                  <div className="grid gap-2">
+                  <p className="text-sm font-semibold text-slate-700 mb-4">
+                    Try asking:
+                  </p>
+                  <div className="grid gap-3">
                     {suggestedQuestions.map((question, index) => (
                       <button
                         key={index}
                         onClick={() => handleSuggestionClick(question)}
-                        className="text-left bg-dark-400/30 hover:bg-dark-400/50 border border-dark-300 hover:border-accent-500/50 rounded-lg px-4 py-3 text-sm text-dark-100 transition-all duration-200 hover:shadow-dark backdrop-blur-sm"
+                        className="text-left bg-white hover:bg-teal-50 border-2 border-slate-200 hover:border-teal-300 rounded-xl px-6 py-4 text-base text-slate-700 hover:text-slate-900 transition-all shadow-sm hover:shadow-md font-medium"
                       >
                         {question}
                       </button>
@@ -157,7 +160,7 @@ const ChatInterface = ({ hasDocuments }) => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="max-w-5xl mx-auto">
             {messages.map((message, index) => (
               <div key={index}>
                 <MessageBubble
@@ -165,17 +168,17 @@ const ChatInterface = ({ hasDocuments }) => {
                   isUser={message.type === 'user'}
                 />
                 {message.type === 'assistant' && message.sources && message.sources.length > 0 && (
-                  <div className="mb-4 ml-14">
+                  <div className="mb-6 ml-16">
                     <SourceCitation sources={message.sources} />
                   </div>
                 )}
               </div>
             ))}
             {loading && (
-              <div className="flex justify-start mb-4">
-                <div className="flex items-center space-x-3 bg-dark-400/30 px-5 py-3 rounded-2xl border border-dark-300 shadow-dark backdrop-blur-sm">
-                  <Loader className="w-5 h-5 text-accent-400 animate-spin" />
-                  <span className="text-dark-100 font-medium">Analyzing documents...</span>
+              <div className="flex justify-start mb-6">
+                <div className="flex items-center space-x-3 bg-white px-6 py-3 rounded-xl border border-slate-200 shadow-sm">
+                  <Loader className="w-5 h-5 text-teal-500 animate-spin" />
+                  <span className="text-slate-700 font-semibold">Analyzing documents...</span>
                 </div>
               </div>
             )}
@@ -185,32 +188,32 @@ const ChatInterface = ({ hasDocuments }) => {
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-dark-300 p-4 bg-dark-400/20 backdrop-blur-sm">
-        <div className="flex items-end space-x-3 max-w-4xl mx-auto">
-          <div className="flex-1 relative">
+      <div className="border-t border-slate-200 p-6 bg-white shadow-lg">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-end space-x-3">
             <textarea
               ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder={hasDocuments ? "Ask a question about your legal documents..." : "Please upload a document first..."}
+              placeholder={hasDocuments ? "Ask about your documents..." : "Upload a document first..."}
               disabled={!hasDocuments || loading}
               rows="1"
-              className="w-full resize-none rounded-xl border-2 border-dark-300 focus:border-accent-500 bg-dark-400/30 px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-accent-500/20 disabled:bg-dark-400/10 disabled:cursor-not-allowed transition-all duration-200 text-dark-50 placeholder-dark-200"
-              style={{ maxHeight: '120px', minHeight: '48px' }}
+              className="flex-1 resize-none rounded-2xl border-2 border-slate-300 focus:border-teal-400 bg-white px-6 py-4 focus:outline-none focus:ring-2 focus:ring-teal-100 disabled:bg-slate-50 disabled:cursor-not-allowed transition-all text-slate-900 placeholder-slate-400 text-base font-medium shadow-sm"
+              style={{ maxHeight: '150px', minHeight: '60px' }}
             />
+            <button
+              onClick={handleSend}
+              disabled={!input.trim() || loading || !hasDocuments}
+              className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white p-4 rounded-2xl transition-all shadow-md hover:shadow-lg"
+            >
+              <Send className="w-6 h-6" />
+            </button>
           </div>
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || loading || !hasDocuments}
-            className="bg-linear-to-r from-accent-600 to-purple-600 hover:from-accent-700 hover:to-purple-700 disabled:from-dark-300 disabled:to-dark-400 disabled:cursor-not-allowed text-white p-3 rounded-xl transition-all duration-200 shadow-dark hover:shadow-dark-lg transform hover:scale-105 disabled:transform-none"
-          >
-            <Send className="w-6 h-6" />
-          </button>
+          <p className="text-xs text-slate-500 mt-3 text-center">
+            Press <kbd className="px-2 py-1 bg-slate-100 border border-slate-300 rounded font-mono">Enter</kbd> to send • <kbd className="px-2 py-1 bg-slate-100 border border-slate-300 rounded font-mono">Shift+Enter</kbd> for new line
+          </p>
         </div>
-        <p className="text-xs text-dark-200 mt-2 text-center">
-          Press Enter to send • Shift + Enter for new line
-        </p>
       </div>
     </div>
   );
