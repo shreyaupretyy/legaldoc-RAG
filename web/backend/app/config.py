@@ -5,7 +5,7 @@ import os
 class Settings(BaseSettings):
     # API Keys
     CLAUDE_API_KEY: str
-    CLAUDE_MODEL: str = "claude-3-5-sonnet-20241022"
+    CLAUDE_MODEL: str = "claude-sonnet-4-5-20250929"
     
     # Embedding & Retrieval
     EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
