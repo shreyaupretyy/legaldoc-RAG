@@ -59,10 +59,10 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-dark-600 to-dark-700">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
-          <Loader className="w-12 h-12 text-accent-600 animate-spin mx-auto mb-4" />
-          <p className="text-dark-100 font-medium">Loading LegalDocRAG...</p>
+          <Loader className="w-12 h-12 text-teal-500 animate-spin mx-auto mb-4" />
+          <p className="text-slate-700 font-semibold text-lg">Loading LegalDocRAG...</p>
         </div>
       </div>
     );
@@ -70,19 +70,26 @@ function App() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-dark-600 to-dark-700 p-4">
-        <div className="bg-dark-500 rounded-2xl shadow-dark-lg p-8 max-w-md w-full border border-dark-300">
-          <div className="flex items-center space-x-3 text-red-400 mb-4">
-            <AlertCircle className="w-8 h-8" />
-            <h2 className="text-xl font-bold text-dark-50">Connection Error</h2>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+        <div className="w-full max-w-md">
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="shrink-0 w-14 h-14 rounded-xl bg-red-50 flex items-center justify-center border border-red-200">
+                <AlertCircle className="w-7 h-7 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Connection Error</h2>
+                <p className="text-sm text-slate-600">Unable to reach backend</p>
+              </div>
+            </div>
+            <p className="text-slate-700 mb-6 text-base leading-relaxed">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
+            >
+              Retry Connection
+            </button>
           </div>
-          <p className="text-dark-100 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="w-full bg-accent-600 hover:bg-accent-700 text-white py-3 rounded-lg font-medium transition-colors"
-          >
-            Retry
-          </button>
         </div>
       </div>
     );
@@ -93,20 +100,18 @@ function App() {
   console.log('App render - hasDocuments:', hasDocuments, 'documents:', documents);
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-dark-600 via-dark-500 to-dark-700">
+    <div className="h-screen flex flex-col bg-slate-50">
       <Header 
         onUploadClick={() => setShowUpload(true)}
         onDocumentsClick={() => setShowDocuments(true)}
         documentCount={documents.length}
       />
       
-      <main className="flex-1 container mx-auto px-4 py-6 lg:py-8">
-        <div className="max-w-6xl mx-auto h-[calc(100vh-140px)]">
-          <ChatInterface 
-            key={chatKey} 
-            hasDocuments={hasDocuments}
-          />
-        </div>
+      <main className="flex-1 overflow-hidden">
+        <ChatInterface 
+          key={chatKey} 
+          hasDocuments={hasDocuments}
+        />
       </main>
 
       {showUpload && (
