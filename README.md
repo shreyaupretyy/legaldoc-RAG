@@ -289,12 +289,5 @@ This project is licensed under the MIT License.
 
 ---
 
-## 🙏 Acknowledgments
-
-- Built as part of the Fuse AI Fellowship program
-- Special thanks to the open-source community for the amazing tools and libraries
-
----
-
 
 
