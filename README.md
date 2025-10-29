@@ -10,6 +10,7 @@ A **modular Retrieval-Augmented Generation (RAG) system** for legal document ana
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Project Structure](#project-structure)
 
@@ -31,6 +32,20 @@ This system is particularly useful for:
 - Contract review and interpretation
 - Compliance checking
 - Legal question answering systems
+
+---
+
+## 📸 Screenshots
+
+### Initial Interface
+The main chat interface ready to answer legal queries:
+
+![Initial Interface](Screenshots/1.png)
+
+### Query Response
+Example of the system answering a question about fundamental rights:
+
+![Query Response](Screenshots/2.png)
 
 ---
 
